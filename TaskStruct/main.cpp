@@ -13,20 +13,63 @@
 #include <algorithm>
 using namespace std;
 struct Data {
-    string month1 = "1";
+    string month1 = "2";
     string month2 = "12";
     string month3;
     string year1 = "10";
     string year2 = "20";
     string year3;
 };
+
 bool Belongto(Data data) {
-    if (data.year3 < data.year2 && data.year3 > data.year1) {
-        if (data.month3 < data.year2 && data.year3 > data.year1) {
+    int flag = 0;
+    if (data.year1 > data.year2) {
+          flag = 1;
     }
+    if (data.year2 > data.year1) {
+          flag = 2;
+    }
+    if (data.year2 == data.year1) {
+          if (data.month2 < data.month1)
+              flag = 1;
+            else if (data.month2 > data.month1)
+                flag = 2;
+    }
+    if (flag == 2 && data.year3 < data.year2 && data.year3 > data.year1) {
+        return 1;
+    }
+    if (flag == 1 && data.year3 > data.year2 && data.year3 < data.year1) {
+        return 1;
+    }
+    if (flag == 2 && data.year3 == data.year2 && data.year3 > data.year1) {
+        if (data.month3 < data.month2)
+            return true;
+          else
+              return false;
+    }
+    if (flag == 2 && data.year3 == data.year1 && data.year3 < data.year2) {
+        if (data.month3 > data.month1)
+            return true;
+          else
+              return false;
+    }
+    if (flag == 1 && data.year3 == data.year1 && data.year3 > data.year2) {
+        if (data.month3 > data.month1)
+            return true;
+        else
+            return false;
+    }
+    if (flag == 1 && data.year3 == data.year2 && data.year3 < data.year1) {
+        if (data.month3 < data.month2)
+            return true;
+          else
+              return false;
+    }
+    else
+        return false;
+  
 };
-int main() {
-    string str = "February 2015";
+void Del (string str) {
     int i = -1, flag =0;
     string timemonth = "", timeyear = "";
     Data data;
@@ -63,5 +106,10 @@ int main() {
     data.month3 = timemonth;
     data.year3 = timeyear;
     cout << timemonth << "  " << timeyear << endl;
+    cout << Belongto(data);
+};
+int main() {
+    string str = "5.2010";
+    Del(str);
     return 0;
 }
